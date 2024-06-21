@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Details</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <style>
+        .review-container {
+            background: antiquewhite;
+            padding: 15px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+        }
+        .int {
+            display: inline-block;
+            margin-right: 10px;
+        }
+    </style>
+</head>
+<body>
+<div class="container mt-5">
+    <div th:each="r : ${reviews}" class="review-container">
+        <p th:text="'Book score: ' + ${r.getScore()}"></p>
+        <p th:text="'Description: ' + ${r.getDescription()}"></p>
+        <p th:text="'Timestamp: ' + ${#temporals.format(r.getTimestamp(), 'dd-MM-yyyy HH:mm:ss')}"></p>
+    </div>
+    <br>
+    <h2 th:text="'Average score: ' + ${average}"></h2>
+    <br/>
+    <form th:method="post" th:action="@{'/books/interval'}">
+        <h1>Interval</h1>
+        <div class="mb-3">
+            <label for="from" class="form-label">From:</label>
+            <input type="datetime-local" name="from" id="from" class="form-control int">
+        </div>
+        <div class="mb-3">
+            <label for="to" class="form-label">To:</label>
+            <input type="datetime-local" name="to" id="to" class="form-control int">
+        </div>
+        <button type="submit" class="btn btn-primary">Filter</button>
+    </form>
+    <a class="btn btn-secondary mt-3" th:href="@{'/books'}">Back to books</a>
+</div>
+</body>
+</html>
